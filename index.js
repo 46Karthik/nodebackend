@@ -22,7 +22,8 @@ app.post('/modification', (req, res) => {
     .then(response => {
       modified_URL = response.request._redirectable._currentUrl;
       // Log the received data
-      console.log(modified_URL);
+      console.log(modified_URL:modified_URL);
+console.log("response",response)
       // Send a JSON response
       res.json({ message: 'POST data received successfully', modified_URL: modified_URL });
     })
