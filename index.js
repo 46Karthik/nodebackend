@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
+require("dotenv").config();
 const app = express();
 const port = 3000;
 
@@ -19,7 +20,19 @@ app.post('/modification', async (req, res) => {
     const keywordinput = postData.keyword;
     const keyword = keywordinput;
 
-    const browser = await puppeteer.launch({ headless: true });
+    // const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote",
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production"
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+  });
     const page = await browser.newPage();
 
     // Wrap the entire scraping process in a Promise
