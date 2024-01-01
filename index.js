@@ -10,7 +10,12 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
-
+const headers = {
+  'Accept': 'application/json, text/plain, */*',
+  'Content-Type': 'application/xml',
+  'User-Agent': 'axios/1.6.3',
+  'Accept-Encoding': 'gzip, compress, deflate, br'
+};
 // Handle POST requests on the "/post-data" route
 app.post('/modification', (req, res) => {
   // Access the JSON data sent in the request body
@@ -18,7 +23,7 @@ app.post('/modification', (req, res) => {
   const url = postData.URL;
   let modified_URL = ''; // Declare the variable here
 
-  axios.head(url, { maxRedirects: 5, validateStatus: null })
+  axios.head(url, { maxRedirects: 5, validateStatus: null,  headers: headers })
     .then(response => {
       modified_URL = response.request._redirectable._currentUrl;
       // Log the received data
